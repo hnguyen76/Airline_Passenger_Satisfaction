@@ -519,6 +519,112 @@ def render_dashboard(data: dict) -> str:
       white-space: nowrap;
     }}
 
+    .story {{
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 16px;
+      align-items: stretch;
+    }}
+
+    .story-lead {{
+      min-height: 100%;
+      position: relative;
+    }}
+
+    .story-lead p {{
+      max-width: 900px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.05vw, 1.12rem);
+      line-height: 1.65;
+    }}
+
+    .story-kicker {{
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 12px;
+      color: var(--amber);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }}
+
+    .story-kicker::before {{
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 18px rgba(251, 191, 36, 0.58);
+    }}
+
+    .story-lead h2 {{
+      max-width: 900px;
+      font-size: clamp(1.55rem, 2.5vw, 3rem);
+      line-height: 1.08;
+      text-transform: none;
+      letter-spacing: 0;
+    }}
+
+    .story-stat-grid {{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+    }}
+
+    .story-stat {{
+      padding: 13px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(7, 11, 20, 0.38);
+      border-radius: 8px;
+    }}
+
+    .story-stat b {{
+      display: block;
+      font-size: 1.42rem;
+      line-height: 1;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }}
+
+    .story-stat span {{
+      display: block;
+      margin-top: 7px;
+      color: var(--soft);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }}
+
+    .story-list {{
+      display: grid;
+      gap: 12px;
+      height: 100%;
+    }}
+
+    .story-point {{
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(7, 11, 20, 0.36);
+      border-radius: 8px;
+    }}
+
+    .story-point strong {{
+      display: block;
+      margin-bottom: 7px;
+      color: #dff7ff;
+      font-size: 1rem;
+    }}
+
+    .story-point span {{
+      display: block;
+      color: var(--muted);
+      line-height: 1.48;
+    }}
+
     .kpis {{
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -762,7 +868,7 @@ def render_dashboard(data: dict) -> str:
     }}
 
     @media (max-width: 1080px) {{
-      header, .grid, .brief {{ grid-template-columns: 1fr; }}
+      header, .grid, .brief, .story {{ grid-template-columns: 1fr; }}
       .signature {{ justify-self: start; }}
       .kpis {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
     }}
@@ -770,6 +876,7 @@ def render_dashboard(data: dict) -> str:
     @media (max-width: 720px) {{
       .shell {{ width: min(100% - 24px, 1480px); padding-top: 18px; }}
       .kpis {{ grid-template-columns: 1fr; }}
+      .story-stat-grid {{ grid-template-columns: 1fr; }}
       .process-row, .bar-row {{ grid-template-columns: 1fr; gap: 8px; }}
       .process-row b, .bar-value {{ text-align: left; }}
       table {{ display: block; overflow-x: auto; white-space: nowrap; }}
@@ -782,10 +889,55 @@ def render_dashboard(data: dict) -> str:
       <div>
         <p class="eyebrow">CEO and Board Management Dashboard</p>
         <h1>Airline Passenger Satisfaction</h1>
-        <p class="subtitle">A board-ready view of satisfaction, operational friction, and statistically reliable experience drivers from passenger survey data.</p>
+        <p class="subtitle">A board-ready story of how passengers experience the airport journey, where friction shows up, and which service moments most clearly shape satisfaction.</p>
       </div>
       <div class="signature">Created by Hieu Nguyen</div>
     </header>
+
+    <section class="story">
+      <article class="panel story-lead">
+        <div class="story-kicker">Dataset Story</div>
+        <h2>Every survey row is a passenger journey, from access and check-in to comfort, baggage, and final sentiment.</h2>
+        <p>
+          This dataset captures {fmt_number(data["records"])} passenger feedback records across boarding and disembarkation journeys. It combines satisfaction ratings, service touchpoints, travel context, demographics, and a final <strong>liked</strong> outcome. For leadership, the value is not only knowing whether passengers were satisfied; it is understanding which operational moments create that satisfaction.
+        </p>
+        <p>
+          The analysis turns raw survey responses into a management view: journey themes, service gaps, statistically reliable drivers, and practical improvement priorities. The story is clear: satisfaction is shaped less by one isolated score and more by repeated friction in visible moments such as lounge comfort, power access, parking, and baggage claim.
+        </p>
+        <div class="story-stat-grid">
+          <div class="story-stat">
+            <b>{fmt_number(data["records"])}</b>
+            <span>passenger survey records analyzed</span>
+          </div>
+          <div class="story-stat">
+            <b>{data["rating_features"]}</b>
+            <span>rating attributes converted into journey signals</span>
+          </div>
+          <div class="story-stat">
+            <b>{fmt_pct(data["liked_rate"])}</b>
+            <span>balanced liked-rate baseline for fair comparison</span>
+          </div>
+        </div>
+      </article>
+      <aside class="panel story-list" aria-label="Dataset insights">
+        <div class="story-point">
+          <strong>What the dataset is about</strong>
+          <span>Passenger satisfaction across the airport service journey: access, check-in, security, border control, commercial services, comfort, cleanliness, digital experience, and baggage.</span>
+        </div>
+        <div class="story-point">
+          <strong>What can be extracted</strong>
+          <span>Management can isolate the journey themes and service attributes that separate liked trips from disliked trips, then compare those signals against process, month, and passenger segments.</span>
+        </div>
+        <div class="story-point">
+          <strong>Core insight</strong>
+          <span>{html.escape(top_theme["theme"])} is the widest theme-level satisfaction gap, while {html.escape(top_priority["attribute"])} is the strongest near-term improvement priority.</span>
+        </div>
+        <div class="story-point">
+          <strong>Decision implication</strong>
+          <span>Use the dashboard as an executive operating lens: protect high-performing journey moments, fund the highest-priority friction points, and track whether improvements close the liked vs. disliked gap.</span>
+        </div>
+      </aside>
+    </section>
 
     <section class="kpis" aria-label="Executive KPI cards">
       <article class="card">
