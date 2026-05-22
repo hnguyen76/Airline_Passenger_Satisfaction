@@ -1,0 +1,13 @@
+{
+  "name": "airline-passenger-satisfaction",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static airline passenger satisfaction dashboard and report assets.",
+  "scripts": {
+    "test:dashboard": "playwright test",
+    "test:dashboard:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

@@ -16,8 +16,12 @@ CEO and Board Management report for exploring airline passenger survey data, ide
 |-- scripts/
 |   |-- build_dashboard.py
 |   `-- upgrade_notebook_for_board.py
+|-- tests/
+|   `-- dashboard.spec.js
 |-- .github/
 |   `-- workflows/deploy-dashboard.yml
+|-- playwright.config.js
+|-- package.json
 |-- requirements.txt
 |-- .gitignore
 `-- README.md
@@ -58,6 +62,16 @@ Open the dashboard locally:
 ```powershell
 dashboard\index.html
 ```
+
+Install and run the browser automation smoke test:
+
+```powershell
+npm.cmd install
+npx.cmd playwright install chromium
+npm.cmd run test:dashboard
+```
+
+The Playwright test opens the static dashboard in Chromium on desktop and mobile viewports, then checks for layout regressions such as the sentiment donut covering other panels.
 
 ## GitHub Pages Dashboard
 
